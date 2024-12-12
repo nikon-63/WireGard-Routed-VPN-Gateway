@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  vpn_client:
+    build: .
+    container_name: vpn_client
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      vpn_network:
+        ipv4_address: 192.168.200.2 
+    restart: unless-stopped
+    volumes:
+      - ./SiteToSite.conf:/etc/wireguard/wg0.conf:ro
+      - ./start.sh:/start.sh:ro
+
+networks:
+  vpn_network:
+    external: true
